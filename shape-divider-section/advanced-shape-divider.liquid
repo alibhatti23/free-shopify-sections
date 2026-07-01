@@ -1,0 +1,128 @@
+{% schema %}
+{
+  "name": "Advanced Shape Divider",
+  "settings": [
+    {
+      "type": "select",
+      "id": "divider_shape",
+      "label": "Divider Shape",
+      "options": [
+        { "value": "waves", "label": "Waves" },
+        { "value": "clouds", "label": "Clouds" },
+        { "value": "zigzag", "label": "Zigzag" },
+        { "value": "mountains", "label": "Mountains" },
+        { "value": "arc", "label": "Arc" },
+        { "value": "triangle_top", "label": "Triangle Top" },
+        { "value": "triangle_bottom", "label": "Triangle Bottom" }
+      ],
+      "default": "waves"
+    },
+    {
+      "type": "color",
+      "id": "divider_fill_color",
+      "label": "Divider Shape Color",
+      "default": "#f8f8f8"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background Color",
+      "default": "transparent"
+    },
+    {
+      "type": "checkbox",
+      "id": "reverse_shape",
+      "label": "Reverse Shape (Flip Vertically)",
+      "default": false
+    },
+    {
+      "type": "range",
+      "id": "divider_height",
+      "min": 30,
+      "max": 400,
+      "step": 5,
+      "unit": "px",
+      "label": "Divider Height",
+      "default": 160
+    },
+    {
+      "type": "range",
+      "id": "divider_width_multiplier",
+      "min": 1,
+      "max": 3,
+      "step": 0.1,
+      "unit": "x",
+      "label": "Divider Width Multiplier",
+      "default": 1.2
+    }
+  ],
+  "presets": [
+    {
+      "name": "Advanced Shape Divider"
+    }
+  ]
+}
+{% endschema %}
+<div class="custom-shape-divider-{{ section.id }}">
+  {% case section.settings.divider_shape %}
+    {% when 'waves' %}
+      <!-- Premium smooth waves -->
+      <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M0,64L48,69.3C96,75,192,85,288,80C384,75,480,53,576,58.7C672,64,768,96,864,117.3C960,139,1056,149,1152,144C1248,139,1344,117,1392,106.7L1440,96V0H0Z" class="shape-fill"></path>
+      </svg>
+    {% when 'clouds' %}
+      <!-- Fluffy clouds -->
+      <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M0,60 C150,120 350,0 600,80 C850,160 1050,40 1200,100 L1200,0 L0,0Z" class="shape-fill"></path>
+      </svg>
+    {% when 'zigzag' %}
+      <!-- Sharp zigzag -->
+      <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M0,0 60,120 120,0 180,120 240,0 300,120 360,0 420,120 480,0 540,120 600,0 660,120 720,0 780,120 840,0 900,120 960,0 1020,120 1080,0 1140,120 1200,0 1200,120 0,120Z" class="shape-fill"></path>
+      </svg>
+    {% when 'mountains' %}
+      <!-- Mountain peaks -->
+      <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M0,120L200,20L400,100L600,10L800,100L1000,40L1200,120V0H0Z" class="shape-fill"></path>
+      </svg>
+    {% when 'arc' %}
+      <!-- Smooth arc -->
+      <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M0,0 C300,150 900,-30 1200,80 L1200,0 L0,0Z" class="shape-fill"></path>
+      </svg>
+    {% when 'triangle_top' %}
+      <!-- Top triangle -->
+      <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M0,120L600,0L1200,120H0Z" class="shape-fill"></path>
+      </svg>
+    {% when 'triangle_bottom' %}
+      <!-- Bottom triangle -->
+      <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M0,0L600,120L1200,0V120H0Z" class="shape-fill"></path>
+      </svg>
+    {% else %}
+      <!-- Default = waves -->
+      <svg viewBox="0 0 1200 120" preserveAspectRatio="none">
+        <path d="M0,64L48,69.3C96,75,192,85,288,80C384,75,480,53,576,58.7C672,64,768,96,864,117.3C960,139,1056,149,1152,144C1248,139,1344,117,1392,106.7L1440,96V0H0Z" class="shape-fill"></path>
+      </svg>
+  {% endcase %}
+</div>
+<style>
+  .custom-shape-divider-{{ section.id }} {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+    z-index: 5;
+    background-color: {{ section.settings.background_color }};
+  }
+  .custom-shape-divider-{{ section.id }} svg {
+    display: block;
+    width: calc({{ section.settings.divider_width_multiplier }} * 100%);
+    height: {{ section.settings.divider_height }}px;
+    transform: {% if section.settings.reverse_shape %}scaleY(-1){% else %}none{% endif %};
+  }
+  .custom-shape-divider-{{ section.id }} .shape-fill {
+    fill: {{ section.settings.divider_fill_color }};
+  }
+</style>

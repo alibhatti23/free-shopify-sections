@@ -1,0 +1,259 @@
+{% if section.settings.enable %}
+  <style data-custom-fonts>
+    {% assign items = section.blocks | reverse  %}
+
+    {% for block in items %}
+      {% assign name = block.settings.name %}
+      {% assign url = block.settings.custom_font_url  %}
+      {% assign custom_font_weight = block.settings.custom_font_weight %}
+      {% assign apply_h1 = block.settings.apply_h1 %}
+      {% assign apply_h2 = block.settings.apply_h2 %}
+      {% assign apply_h3 = block.settings.apply_h3 %}
+      {% assign apply_h4 = block.settings.apply_h4 %}
+      {% assign apply_h5 = block.settings.apply_h5 %}
+      {% assign apply_h6 = block.settings.apply_h6 %}
+      {% assign apply_span = block.settings.apply_span %}
+      {% assign apply_p = block.settings.apply_p %}
+      {% assign apply_custom = block.settings.apply_custom %}
+      {% assign apply_a = block.settings.apply_a %}
+      {% assign apply_input = block.settings.apply_input %}
+      {% assign apply_label = block.settings.apply_label %}
+      {% assign apply_legend = block.settings.apply_legend %}
+      {% assign apply_button = block.settings.apply_button %}
+      {% assign apply_summary = block.settings.apply_summary %}
+      {% assign apply_select = block.settings.apply_select %}
+      {% assign apply_option = block.settings.apply_option %}
+      {% assign apply_small = block.settings.apply_small %}
+
+      {% if url != blank %}
+        {% capture _font_type %}
+          {% if url contains ".otf" %}
+            opentype
+          {% elsif url contains ".ttf" %}
+            truetype
+          {% elsif url contains ".svg" %}
+            svg
+          {% elsif url contains ".woff2" %}
+            woff2
+          {% else %}
+            woff
+          {% endif %}
+        {% endcapture %}
+
+        {% assign font_type = _font_type | strip %}
+        
+        @font-face {
+          font-family: '{{ name }}';
+          src: url({{ url }}) format('{{ font_type }}');
+          {% if custom_font_weight != 'none' %}
+            font-weight: {{ custom_font_weight }};
+          {% endif %}
+        }
+
+        {% comment %} CSS Generation Helper {% endcomment %}
+        {% capture font_css %}
+          font-family: '{{name}}' !important;
+          {% if custom_font_weight != 'none' %}
+            font-weight: {{custom_font_weight}} !important;
+          {% endif %}
+        {% endcapture %}
+
+        {% if apply_h1 %} h1 { {{ font_css }} } {% endif %}
+        {% if apply_h2 %} h2 { {{ font_css }} } {% endif %}
+        {% if apply_h3 %} h3 { {{ font_css }} } {% endif %}
+        {% if apply_h4 %} h4 { {{ font_css }} } {% endif %}
+        {% if apply_h5 %} h5 { {{ font_css }} } {% endif %}
+        {% if apply_h6 %} h6 { {{ font_css }} } {% endif %}
+        {% if apply_p %} p { {{ font_css }} } {% endif %}
+        {% if apply_a %} a { {{ font_css }} } {% endif %}
+        {% if apply_input %} input { {{ font_css }} } {% endif %}
+        {% if apply_label %} label { {{ font_css }} } {% endif %}
+        {% if apply_legend %} legend { {{ font_css }} } {% endif %}
+        {% if apply_button %} button { {{ font_css }} } {% endif %}
+        {% if apply_summary %} summary { {{ font_css }} } {% endif %}
+        {% if apply_select %} select { {{ font_css }} } {% endif %}
+        {% if apply_option %} option { {{ font_css }} } {% endif %}
+        {% if apply_small %} small { {{ font_css }} } {% endif %}
+        {% if apply_span %} span { {{ font_css }} } {% endif %}
+
+        {% if apply_custom != blank %}
+          {{ apply_custom }} { {{ font_css }} }
+        {% endif %}
+      {% endif %}
+    {% endfor %}
+  </style>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Custom Font",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable",
+      "label": "Enable",
+      "default": true
+    }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Font",
+      "settings": [
+        {
+          "type": "header",
+          "content": "Font Settings"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Font name",
+          "default": "customfont"
+        },
+        {
+          "type": "select",
+          "id": "custom_font_weight",
+          "label": "Font weight",
+          "default": "none",
+          "options": [
+            {
+              "value": "none",
+              "label": "None"
+            },
+            {
+              "value": "normal",
+              "label": "Normal"
+            },
+            {
+              "value": "bold",
+              "label": "Bold"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "id": "custom_font_url",
+          "label": "Font URL"
+        },
+        {
+          "type": "paragraph",
+          "content": "Apply the custom font to the following HTML elements:"
+        },
+        {
+          "type": "checkbox",
+          "id": "apply_h1",
+          "label": "H1",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "apply_h2",
+          "label": "H2",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "apply_h3",
+          "label": "H3",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "apply_h4",
+          "label": "H4",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "apply_h5",
+          "label": "H5",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "apply_h6",
+          "label": "H6",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "apply_span",
+          "label": "<span> tags",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "apply_p",
+          "label": "<p> tags",
+          "default": false
+        },
+         {
+          "type": "checkbox",
+          "id": "apply_a",
+          "label": "<a> tags",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "apply_input",
+          "label": "<input> tags",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "apply_label",
+          "label": "<label> tags",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "apply_legend",
+          "label": "<legend> tags",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "apply_button",
+          "label": "<button> tags",
+          "default": false
+        },
+         {
+          "type": "checkbox",
+          "id": "apply_summary",
+          "label": "<summary> tags",
+          "default": false
+        },
+         {
+          "type": "checkbox",
+          "id": "apply_select",
+          "label": "<select> tags",
+          "default": false
+        },
+         {
+          "type": "checkbox",
+          "id": "apply_option",
+          "label": "<option> tags",
+          "default": false
+        },
+        {
+          "type": "checkbox",
+          "id": "apply_small",
+          "label": "<small> tags",
+          "default": false
+        },
+        {
+          "type": "textarea",
+          "id": "apply_custom",
+          "label": "CSS Selectors",
+          "info": "Apply font to custom CSS selectors"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Font"
+    }
+  ]
+}
+{% endschema %}
